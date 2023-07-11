@@ -69,26 +69,29 @@ You should use better inbuilt functions if they provide better memory and time c
 Perform the optimisation if and when possible. Your input will be code snippets. 
 You should output the optimised version only.  Return only code snippets and nothing else.'''
 
-user_prompt = 'Remember the goal is to reduce carbon emissions. Also give me just the optimised code and nothing else. Here is the unoptimised code: {}'
+user_prompt = '''Remember the goal is to reduce carbon emissions. Minimise time and space complexity. Simplify the code.
+Your output should be the optimised code and then a one liner explanation. Here is the unoptimised code: {}'''
 
-unoptimised_code = '''
+unoptimised_code_arr = '''
 def create_large_list():
     large_list = []
     for i in range(1000000):
         large_list.append(i)
     return large_list
-
-def process_list():
-    data = create_large_list()
-    result = sum(data)  # Perform some computation
-    print(result)
-
-process_list()
 '''
 
-def system_role_chat(system_prompt, user_prompt, unoptimised_code):
+unoptimised_code = '''
+def factorial(n):
+    if n == 0:
+        return 1
+    else:
+        return n * factorial(n-1)
+'''
+
+def system_role_chat(system_prompt, user_prompt, model, unoptimised_code):
   chat_response = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo-0613",
+    model=model,
+    temperature=0,
     messages=[
       {
           "role": "system",
@@ -101,6 +104,6 @@ def system_role_chat(system_prompt, user_prompt, unoptimised_code):
     ]
   )
   print('Chat response: \n')
-  print(chat_response, end='\n\n')
+  print(chat_response['choices'][0]['message']['content'], end='\n\n')
 
-system_role_chat(system_prompt, user_prompt, unoptimised_code)
+system_role_chat(system_prompt, user_prompt, 'gpt-3.5-turbo', unoptimised_code)

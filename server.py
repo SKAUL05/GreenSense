@@ -1,45 +1,47 @@
 import os
 import openai
-import tiktoken
+from code_snippets import (
+  create_large_array,
+  factorial,
+  fibonacci,
+  list_flattening,
+  list_sorting,
+  list_duplicate_removal,
+  string_reversal,
+  matrix_multiplication,
+  check_prime,
+  calculating_pi,
+  optimised_fibonacci
+)
 
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 # Updated Chat
 
 
-user_prompt = '''The goal is to reduce code carbon emissions. 
-Minimise time and space complexity. Simplify the code.
-Your output should be the optimised code and then a one liner explanation. 
-Always comment out the explanation.
-If code is in a function, let it remain in a function. 
+user_prompt = '''
+Context: 
+The goal is to reduce code carbon emissions.
+
+Instruction: 
+Minimise time and space complexity. 
+Simplify the code.
+If the code is in a function, let it remain in a function. 
 Don't change variable names.
-Here is the unoptimised code: {}'''
+If necessary, use parallel processing, or a third party library.
+If no simplification can be done, state that.
 
-unoptimised_code_arr = '''
-def create_large_list():
-    large_list = []
-    for i in range(1000000):
-        large_list.append(i)
-    return large_list
+Output expectation:
+Your output should be the optimised code.
+Also provide a one line explanation.
+If needed, include space and time complexity in the explanation.
+Always comment the explanation (#).
+
+Input:
+Here is the unoptimised code: {}
 '''
 
-unoptimised_code = '''
-def factorial(n):
-    if n == 0:
-        return 1
-    else:
-        return n * factorial(n-1)
-'''
-
-fibonacci = '''
-def fibonacci(n):
-    if n <= 1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
-'''
-
-def system_role_chat(user_prompt, model, unoptimised_code):
+def chat(user_prompt, model, unoptimised_code):
   chat_response = openai.ChatCompletion.create(
     model=model,
     temperature=0,
@@ -57,4 +59,4 @@ def system_role_chat(user_prompt, model, unoptimised_code):
   print('Chat response: \n')
   print(chat_response['choices'][0]['message']['content'], end='\n\n')
 
-system_role_chat(user_prompt, 'gpt-3.5-turbo', fibonacci)
+chat(user_prompt, 'gpt-3.5-turbo', calculating_pi)

@@ -104,10 +104,15 @@ def estimate_pi(n):
     return 4 * num_points_in_circle / num_total_points
 '''
 
-optimised_fibonacci = '''
-def fibonacci(n):
-    fib = [0, 1]
-    for i in range(2, n+1):
-        fib.append(fib[i-1] + fib[i-2])
-    return fib[n]
-'''
+codesnippets = {
+    'create_large_array': create_large_array,
+    'factorial': factorial,
+    'fibonacci': fibonacci,
+    'list_flattening': list_flattening,
+    'list_sorting': list_sorting,
+    'list_duplicate_removal': list_duplicate_removal,
+    'string_reversal': string_reversal,
+    'matrix_multiplication': matrix_multiplication,
+    'check_prime': check_prime,
+    'calculating_pi': calculating_pi,
+}

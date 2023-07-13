@@ -3,7 +3,7 @@ import openai
 import pandas as pd
 
 from dotenv import load_dotenv
-from code_snippets import calculating_pi
+from utils.code_snippets import calculating_pi, web_scraping, data_analysis, optimised_fibonacci, optimised_factorial
 
 load_dotenv()
 openai.api_key = os.environ['OPENAI_API_KEY']
@@ -31,6 +31,38 @@ Input:
 Here is the unoptimised code: {}
 '''
 
+model = 'gpt-3.5-turbo'
+
+def chat(unoptimised_code):
+  chat_response = openai.ChatCompletion.create(
+    model=model,
+    temperature=0,
+    messages=[
+      {
+          "role": "user",
+          "content": user_prompt.format(unoptimised_code)
+      }
+    ]
+  )
+  prompt_tokens = chat_response["usage"]["prompt_tokens"]
+  completion_tokens = chat_response["usage"]["completion_tokens"]
+  total_tokens = chat_response["usage"]["total_tokens"]
+  chat_output = chat_response['choices'][0]['message']['content']
+  output_code, explanation = chat_output.split('-----', maxsplit=1)
+  return output_code, explanation, total_tokens
+
+# code, exp, tok = chat(optimised_factorial)
+# chat(data_analysis)
+# chat(optimised_fibonacci)
+# chat(optimised_factorial)
+
+# print(f'code:\n{code}\n')
+# print(f'exp:\n{exp}\n')
+# print(f'tok:\n{tok}\n')
+
+
+
+
 # user_prompt = '''
 # Context: 
 # The goal is to reduce code carbon emissions.
@@ -53,25 +85,3 @@ Here is the unoptimised code: {}
 # Input:
 # Here is the unoptimised code: {}
 # '''
-
-model = 'gpt-3.5-turbo'
-
-def chat(unoptimised_code):
-  chat_response = openai.ChatCompletion.create(
-    model=model,
-    temperature=0,
-    messages=[
-      {
-          "role": "user",
-          "content": user_prompt.format(unoptimised_code)
-      }
-    ]
-  )
-  prompt_tokens = chat_response["usage"]["prompt_tokens"]
-  completion_tokens = chat_response["usage"]["completion_tokens"]
-  total_tokens = chat_response["usage"]["total_tokens"]
-  chat_output = chat_response['choices'][0]['message']['content']
-  output_code, explanation = chat_output.split('-----', maxsplit=1)
-  return output_code, explanation, total_tokens
-
-# chat(calculating_pi)

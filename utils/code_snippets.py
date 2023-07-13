@@ -13,7 +13,7 @@ def factorial(n):
     else:
         return n * factorial(n-1)
 '''
-
+3.5
 fibonacci = '''
 def fibonacci(n):
     if n <= 1:
@@ -104,6 +104,77 @@ def estimate_pi(n):
     return 4 * num_points_in_circle / num_total_points
 '''
 
+web_scraping = '''
+import requests
+from bs4 import BeautifulSoup
+
+def scrape_quotes(url):
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'lxml')
+
+    quotes = []
+
+    for quote in soup.find_all('div', class_='quote'):
+        text = quote.find('span', class_='text').text
+        author = quote.find('small', class_='author').text
+        tags = [tag.text for tag in quote.find_all('a', class_='tag')]
+
+        quotes.append({
+            'text': text,
+            'author': author,
+            'tags': tags
+        })
+
+    return quotes
+
+# example usage
+quotes = scrape_quotes('http://quotes.toscrape.com/')
+for quote in quotes:
+    print(quote)
+'''
+
+data_analysis = '''
+import pandas as pd
+
+def clean_and_transform_data(input_file, output_file):
+    # Load the data
+    df = pd.read_csv(input_file)
+
+    # Drop any rows with missing data
+    df.dropna(inplace=True)
+
+    # Convert dates from string to datetime
+    df['date'] = pd.to_datetime(df['date'])
+
+    # Create a new column for the year
+    df['year'] = df['date'].dt.year
+
+    # Drop any rows where 'value' is less than 0
+    df = df[df['value'] >= 0]
+
+    # Save the cleaned data to a new CSV
+    df.to_csv(output_file, index=False)
+
+# example usage
+clean_and_transform_data('input.csv', 'output.csv')
+'''
+
+optimised_fibonacci = '''
+def fibonacci(n):
+    fib = [0, 1]
+    for i in range(2, n+1):
+        fib.append(fib[i-1] + fib[i-2])
+    return fib[n]
+'''
+
+optimised_factorial = '''
+def factorial(n):
+    result = 1
+    for i in range(1, n+1):
+        result *= i
+    return result
+'''
+
 codesnippets = {
     'create_large_array': create_large_array,
     'factorial': factorial,
@@ -115,4 +186,9 @@ codesnippets = {
     'matrix_multiplication': matrix_multiplication,
     'check_prime': check_prime,
     'calculating_pi': calculating_pi,
+    'web_scraping': web_scraping,
+    'data_analysis': data_analysis,
+
+    'optimised_fibonacci': optimised_fibonacci,
+    'optimised_factorial': optimised_factorial
 }

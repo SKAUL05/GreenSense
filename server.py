@@ -1,5 +1,7 @@
 import os
 import openai
+
+from dotenv import load_dotenv
 from code_snippets import (
   create_large_array,
   factorial,
@@ -14,6 +16,7 @@ from code_snippets import (
   optimised_fibonacci
 )
 
+load_dotenv()
 openai.api_key = os.environ['OPENAI_API_KEY']
 
 # Updated Chat

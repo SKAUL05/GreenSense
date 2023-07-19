@@ -23,7 +23,7 @@ def chat(unoptimised_code):
     messages=[
     {
       "role": "system",
-      "content": "Your task is to optimize the provided code. Improve its speed. Improve its algorithmic efficiency. Use parallel processing as a last resort. The response should strictly follow this format: Start with the string [CODE_START], then the optimized code, followed by [CODE_END]. After that, start with [EXPLANATION_START], provide one line explanation of the optimisation and provide the complexities of the original code and complexities of the optimized code, and end with [EXPLANATION_END]."
+      "content": "Your task is to optimize the provided code. Improve its speed. Improve its algorithmic efficiency. Some optimisations may include connection pooling, inbuilt functions, parallel processing. The response should strictly follow this format: Start with the string [CODE_START], then the optimized code, followed by [CODE_END]. After that, start with [EXPLANATION_START], provide one line explanation of the optimisation and provide the complexities of the original code and complexities of the optimized code, and end with [EXPLANATION_END]."
     },
     {
       "role": "user",

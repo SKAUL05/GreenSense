@@ -1,9 +1,8 @@
 import os
 import openai
-import pandas as pd
 
 from dotenv import load_dotenv
-from utils.code_snippets import calculating_pi, web_scraping, data_analysis, optimised_fibonacci, optimised_factorial
+from code_snippets import calculating_pi, web_scraping, data_analysis, optimised_fibonacci, optimised_factorial, fibonacci
 
 load_dotenv()
 openai.api_key = os.environ['OPENAI_API_KEY']
@@ -12,19 +11,20 @@ user_prompt = '''
 Context: 
 The goal is to reduce code carbon emissions.
 
-Instruction: 
-Minimise time and space complexity. 
-Simplify the code.
-If the code is in a function, let it remain in a function. 
-Don't change variable names.
+Instruction:
+Understand the code. 
+Minimise time and space complexity.
+Simplify the code. 
+If the code is in a function, let it remain in a function and let function signature be same. 
+Variable and function names should remain same.
 If necessary, use parallel processing, or a third party library.
 If no simplification can be done, state that.
 
 Output expectation:
-Your output should be:
-- optimised code
-- a line of 5 dashes
-- one line explanation for the optimisation
+Your output should contain 3 parts:
+1. Optimised python code (if any)
+2. A mandatory line of 5 dashes
+3. One line explanation for the optimisation
 If needed, include space and time complexity in the explanation.
 
 Input:
@@ -36,7 +36,7 @@ model = 'gpt-3.5-turbo'
 def chat(unoptimised_code):
   chat_response = openai.ChatCompletion.create(
     model=model,
-    temperature=0,
+    temperature=0.1,
     messages=[
       {
           "role": "user",
@@ -48,17 +48,18 @@ def chat(unoptimised_code):
   completion_tokens = chat_response["usage"]["completion_tokens"]
   total_tokens = chat_response["usage"]["total_tokens"]
   chat_output = chat_response['choices'][0]['message']['content']
+  # print(chat_output)
   output_code, explanation = chat_output.split('-----', maxsplit=1)
   return output_code, explanation, total_tokens
 
-# code, exp, tok = chat(optimised_factorial)
+code, exp, tok = chat(optimised_factorial)
 # chat(data_analysis)
 # chat(optimised_fibonacci)
 # chat(optimised_factorial)
 
-# print(f'code:\n{code}\n')
-# print(f'exp:\n{exp}\n')
-# print(f'tok:\n{tok}\n')
+print(f'code:\n{code}\n')
+print(f'exp:\n{exp}\n')
+print(f'tok:\n{tok}\n')
 
 
 

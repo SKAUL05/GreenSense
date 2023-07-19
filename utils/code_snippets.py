@@ -13,13 +13,13 @@ def factorial(n):
     else:
         return n * factorial(n-1)
 '''
-3.5
+
 fibonacci = '''
-def fibonacci(n):
+def give_output(n):
     if n <= 1:
         return n
     else:
-        return fibonacci(n-1) + fibonacci(n-2)
+        return give_output(n-1) + give_output(n-2)
 '''
 
 list_flattening = '''
@@ -192,3 +192,4 @@ codesnippets = {
     'optimised_fibonacci': optimised_fibonacci,
     'optimised_factorial': optimised_factorial
 }
+

@@ -24,7 +24,7 @@ def call_Chat_gpt_for_time_and_space_complexity(content):
     messages=[
       {
         "role": "system",
-        "content": "You will be provided with Python code, give only Time complexity and Space Complexity in json fomat with no explation"
+        "content": "You will be provided with Python code, give only Time complexity and Space Complexity all functions in json fomat with no explation"
       },
       {
         "role": "user",
@@ -37,8 +37,9 @@ def call_Chat_gpt_for_time_and_space_complexity(content):
     frequency_penalty=0.0,
     presence_penalty=0.0
   )
-#   print(chat_response)
-  return extract_time_and_space_complexity(chat_response['choices'][0]['message']['content'])
+  # print(chat_response)
+  return chat_response['choices'][0]['message']['content']
+  # return extract_time_and_space_complexity(chat_response['choices'][0]['message']['content'])
 
 def get_cyclomitic_complexity(fun):
   v = ComplexityVisitor.from_code(fun)
@@ -113,7 +114,7 @@ def give_start_rating(old_score,new_score):
 
 # precent_change = 
 
-
+'''
 print("factorial")
 print("\nUnOptimised Code")
 # res=call_Chat_gpt_for_time_and_space_complexity(factorial)
@@ -175,6 +176,9 @@ print("\nstart Rating")
 stars = give_start_rating(old_score, new_score)
 print("Satrt Rating of Old Code: ",stars["old_code"])
 print("Satrt Rating of New Code: ",stars["new_code"])
+'''
+
+
 
 
 

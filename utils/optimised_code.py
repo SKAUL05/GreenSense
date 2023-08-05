@@ -13,3 +13,9 @@ def factorial(n):
     for i in range(1, n+1):
         result *= i
     return result
+
+def create_large_list():
+    large_list = []
+    for i in range(1000000):
+        large_list.append(i)
+    return large_list

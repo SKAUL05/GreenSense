@@ -1,7 +1,8 @@
 import os
 import openai
 from radon.visitors import ComplexityVisitor
-from code_snippets import calculating_pi, web_scraping, data_analysis, optimised_fibonacci, optimised_factorial, fibonacci, factorial
+from radon.complexity import cc_visit
+# from code_snippets import calculating_pi, web_scraping, data_analysis, optimised_fibonacci, optimised_factorial, fibonacci, factorial
 from dotenv import load_dotenv
 import sys
 import json
@@ -42,10 +43,10 @@ def call_Chat_gpt_for_time_and_space_complexity(content):
   # return extract_time_and_space_complexity(chat_response['choices'][0]['message']['content'])
 
 def get_cyclomitic_complexity(fun):
-  v = ComplexityVisitor.from_code(fun)
-  result = v.functions
-  
-  return result[0].complexity
+#   v = ComplexityVisitor.from_code(fun)
+#   result = v.functions
+#   print(result)
+  return cc_visit(fun)
 
 def extract_time_and_space_complexity(res):
   res = json.loads(res)
@@ -80,9 +81,15 @@ def convert_complexity_to_number(complexity):
       else:
         last=N
       next = int(complexity[i+1]) if complexity[i+1].isnumeric() else N
-    #   print(next,last)
-      final_comp/=last
-      final_comp=final_comp * 100#math.pow(last,next)
+      # print(final_comp,next,last)
+      if final_comp>1:
+        final_comp/=last
+      if next>last:
+        final_comp=final_comp * 100#math.pow(last,next)
+      elif next==last:
+        final_comp=final_comp * 150
+      else:
+        final_comp=final_comp * 70
       i+=1
     i+=1
   return final_comp
@@ -91,22 +98,22 @@ def give_start_rating(old_score,new_score):
   delta = ((old_score-new_score)/old_score)*100
   if delta<=0:
     print("No Optimisation Required")
-    return {'old_code': "4.5 Star",
-            'new_code': "4.5 Star"}
+    return {'old_code': 4.5,
+            'new_code': 4.5}
   
   else:
     if 0<delta<=20:
-      return {'old_code': "4 Star",
-            'new_code': "4.5 Star"}
+      return {'old_code': 4 ,
+            'new_code': 4.5 }
     elif 20<delta<=50:
-      return {'old_code': "3.1 Star",
-            'new_code': "4.4 Star"}
+      return {'old_code': 3 ,
+            'new_code': 4.5 }
     elif 50<delta<=75:
-      return {'old_code': "2.5 Star",
-            'new_code': "4.3 Star"}
+      return {'old_code': 2.5 ,
+            'new_code': 4.5 }
     else:
-      return {'old_code': "1 to 2 Star",
-            'new_code': "4.7 Star"}
+      return {'old_code': 1.5 ,
+            'new_code': 4.5 }
   
   
 

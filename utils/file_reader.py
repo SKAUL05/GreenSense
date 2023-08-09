@@ -104,7 +104,7 @@ if __name__ == "__main__":
         print(f"Score for optimised Function {new_score}")
         print(f"Calculating Sart Rating for Function {function}")
         star_rating = give_start_rating(old_score,new_score)
-        print(star_rating)
+        # print(star_rating)
         old_star, new_star = star_rating["old_code"], star_rating["new_code"]
         old_extra = 0 if math.ceil(old_star)==old_star else 1
         new_extra = 0 if math.ceil(new_star)==new_star else 1
